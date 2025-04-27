@@ -77,7 +77,5 @@ This will start a local web server and open the application in your browser. Pre
 ![Alt text for screen reader](https://github.com/renabracha/audio_file_summarizer/blob/main/screenshot_en4.jpg?raw=true)
 
 ### Japanese
-![Alt text for screen reader](https://github.com/renabracha/audio_file_summarizer/blob/main/screenshot_ja1.jpg?raw=true)
-![Alt text for screen reader](https://github.com/renabracha/audio_file_summarizer/blob/main/screenshot_ja2.jpg?raw=true)
 ![Alt text for screen reader](https://github.com/renabracha/audio_file_summarizer/blob/main/screenshot_ja3.jpg?raw=true)
 ![Alt text for screen reader](https://github.com/renabracha/audio_file_summarizer/blob/main/screenshot_ja4.jpg?raw=true)

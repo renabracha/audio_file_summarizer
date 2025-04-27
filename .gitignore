@@ -1,0 +1,6 @@
+.env
+logs/
+audio_file_summarizer_env/
+audio_file_summary.jpg
+summary_original.txt
+transcript_notebook.txt

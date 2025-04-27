@@ -1,0 +1,9 @@
+torch
+whisper
+numpy
+tqdm
+pydub
+langchain
+langchain-groq
+python-dotenv
+streamlit

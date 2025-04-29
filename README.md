@@ -17,11 +17,13 @@ The program works in the following sequence:
 4. Summarise each point in a bullet list.
 5. Translate the bullet list into the language of the user's choice.
 
-## Points of Consideration
-We summarize in the original languages first, then translate the summary since it is generally more efficient and makes good practical sense.
-* Translation has higher token-level cost (especially for long texts) in both time and API usage.
-* Summarization reduces content size, which speeds up and simplifies the translation task.
-* Summarizing in the original languages also preserves contextual and cultural nuances, which often get muddled if you translate first.
+## Design Notes
+* Whisper is used to process an audio file, and in chunks, in order to catch the switch in languages between conversational segments in a multilingual audio file, which often can be fairly short. 
+* Summarizing in the original languages first, then translating the summary is generally more efficient and makes good practical sense.
+o Translation has higher token-level cost (especially for long texts) in both time and API usage.
+o Summarization reduces content size, which speeds up and simplifies the translation task.
+o Summarizing in the original languages also preserves contextual and cultural nuances, which often get muddled if you translate first.
+Note: Privacy can be better preserved when handling sensitive business meeting recordings by using locally hosted models.
 
 ## Challenges
 * It took a long time to find a suitable multilingual audio file with an appropriate license that allows me to use in this project. An hour-long audio recording of a business meeting involving Japanese, Hebrew and English produced the best result. The model did not detect all the languages successfully in a couple of YouTube videos, including the one shown in the result.

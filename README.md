@@ -23,6 +23,7 @@ The program works in the following sequence:
 o Translation has higher token-level cost (especially for long texts) in both time and API usage.
 o Summarization reduces content size, which speeds up and simplifies the translation task.
 o Summarizing in the original languages also preserves contextual and cultural nuances, which often get muddled if you translate first.
+* Langchain provides a structure to the code, enhancing readability with the sequencing of modular prompt templates (summarization then translation). 
 Note: Privacy can be better preserved when handling sensitive business meeting recordings by using locally hosted models.
 
 ## Challenges

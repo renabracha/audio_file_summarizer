@@ -17,7 +17,7 @@ The program works in the following sequence:
 4. Summarise each point in a bullet list.
 5. Translate the bullet list into the language of the user's choice.
 
-## Design Notes
+## Development Notes
 * Whisper is used to process an audio file, and in chunks, in order to catch the switch in languages between conversational segments in a multilingual audio file, which often can be fairly short. 
 * Summarizing in the original languages first, then translating the summary is generally more efficient and makes good practical sense.
 o Translation has higher token-level cost (especially for long texts) in both time and API usage.

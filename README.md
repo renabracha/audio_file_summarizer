@@ -1,5 +1,8 @@
 # Audio File Summarizer
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
+(https://colab.research.google.com/github/renabracha/audio_file_summarizer/blob/main/Audio_file_summariser.ipynb)
+
 ## Acknowledgment
 I would like to thank the following individuals and organisations that made this project possible.
 * Groq for providing me free access to their API key and thereby allowing me to gain hands-on experience in making API calls without having to constantly worry about token limits.
@@ -7,35 +10,42 @@ I would like to thank the following individuals and organisations that made this
 ## Audio Credits
 Audio content from [Polyglot speaking in 7 languages](https://www.youtube.com/watch?v=esaXXVD0PTc), licensed under Creative Commons Attribution License (CC BY). Used for non-commercial, educational purposes.
 
-## Abstract
-Audio file summarizer produces a list of summaries from an audio file in the language of the user's choice. It is useful for extracting meeting minutes out of the recording of a business meeting. The program can handle audio files containing multiple languages. In a business meeting between two companies with one party speaking in Japanese, another in Hebrew, and the common language being English, the program transcribes the utterances in all three languages, and produces meeting minutes in the language specified by the user.
+## Abstract  
+**Audio File Summarizer** generates structured summaries from multilingual audio recordings, making it ideal for extracting meeting minutes from business meetings. The program transcribes speech in multiple languages and outputs concise bullet-point summaries translated into a language of the user’s choice.  
+
+For example, in a multilingual meeting between companies - where one party speaks Japanese, another Hebrew, and English serves as the common language - the program accurately identifies and transcribes all three, then produces summaries in the specified output language.  
+
+### Workflow  
+1. The user uploads an audio file to their My Drive on Google Drive.  
+2. The program transcribes the audio, detecting all languages present.  
+3. Key points are extracted from the transcriptions.  
+4. Each point is summarized as a bullet item.  
+5. The bullet list is translated into the user's chosen language.
+
+## Development Notes  
+* **Whisper** is used for transcription, processed in chunks to accurately capture short, multilingual exchanges.  
+* Summarizing in the **original languages first**, then translating, improves efficiency and quality:  
+  - Translation of raw transcripts is token-expensive and error-prone.  
+  - Summarization reduces text size, speeding up translation and lowering costs.  
+  - Preserving source-language context avoids misinterpretation due to premature translation.  
+* **LangChain** provides modular sequencing for summarization and translation via structured prompt templates.  
+Note: For greater privacy, local deployment with open-source models is recommended when working with sensitive recordings.
+
+## Challenges  
+* The most effective testing was done using a private, hour-long multilingual recording featuring Japanese, Hebrew, and English. However, for inclusion in this GitHub repository, it was necessary to find a publicly available audio file with a suitable license - an effort that proved time-consuming.
+* Whisper’s **“large” model** performs best for multilingual detection. Smaller models struggle with non-English content.  
+* **GPU acceleration** significantly boosts both speed and accuracy. On CPU, an 8-minute file takes about 15 minutes. On GPU (e.g., Google Colab’s T4), it processes in about half the time with better language detection.  
+* Tuning **chunk size and overlap** was critical. Language switching in rapid, short exchanges meant chunk sizes had to be small (about 30 sec) with generous overlaps (about 10 sec). This increased the number of chunks but improved performance in mixed-language contexts.  
+* **Streamlit** has limitations:  
+  - Incompatibility with some `torch` versions (e.g., `2.6.0` CPU).  
+  - Poor handling of multiple session states; more than two can cause flow issues, making it difficult to restart processes like uploading a new file.  
+  - No functional "Start Over" button due to session state complexity.  
+* Streamlit works better with **three or fewer variables**. Performance degrades with higher complexity.
+
 <br>
-The program works in the following sequence:
-1. Ask the user to upload an audio file to their My Drive on Google Drive.
-2. Transcribe the video in all the languages heard in the audio file.
-3. Extract the key points.
-4. Summarise each point in a bullet list.
-5. Translate the bullet list into the language of the user's choice.
+The program is available in both Jupyter Notebook (.ipynb) and standalone Python script (.py) formats.
 
-## Development Notes
-* Whisper is used to process an audio file, and in chunks, in order to catch the switch in languages between conversational segments in a multilingual audio file, which often can be fairly short. 
-* Summarizing in the original languages first, then translating the summary is generally more efficient and makes good practical sense.
-o Translation has higher token-level cost (especially for long texts) in both time and API usage.
-o Summarization reduces content size, which speeds up and simplifies the translation task.
-o Summarizing in the original languages also preserves contextual and cultural nuances, which often get muddled if you translate first.
-* Langchain provides a structure to the code, enhancing readability with the sequencing of modular prompt templates (summarization then translation). 
-Note: Privacy can be better preserved when handling sensitive business meeting recordings by using locally hosted models.
-
-## Challenges
-* It took a long time to find a suitable multilingual audio file with an appropriate license that allows me to use in this project. An hour-long audio recording of a business meeting involving Japanese, Hebrew and English produced the best result. The model did not detect all the languages successfully in a couple of YouTube videos, including the one shown in the result.
-* The "large" sized Whisper model processes audio files the best. The "medium", "small" and "base" sized models all show difficulty at detecting non-English languages.
-* Running Whisper without a GPU affects its performance greatly, not just in terms of speed but also in terms of language detection performance. It takes about 15 minutes to process an 8-minute long audio file on the CPU. It takes about half that time to process the same file, and manages to show a better language detection rate when run on the GPU. If your PC is not equipped with up-to-date GPU card that is compatible with the GPU-enabled version of PyTorch, it is preferable to run the program in Google Colab using T4. The .ipynb file is provided in the repo folder (no Streamlit section).  
-* I had to experiment iteractively and adjust the chunk size in milliseconds until I found an optimal size for capturing the conversational segments of various length. If a converstaional exchange in one language is short and that exchange goes into a chunk, together with part of the subsequent conversational exchange in a different language, Whisper failed to identify the language of the shorter segment. It meant each chunk was small (30 seconds), the overlap felt rather large (10 seconds) and the number of chunks being produced ended up being high, but it succeeded in coping with the frequent switchings in languages.
-* Streamlit seems to be incompatibile with certain versions of torch (e.g. 2.6.0 CPU version). Upgrading the torch installation did not help. 
-* Streamlit also seems to find it difficult to cope with seven states. Up to two states is fine, but if there are more (I have not tested its threshold when it stops working correctly), it cannot return to the beginning of the loop to process another audio file where the starting state is clearly labelled and specified. Claude also could not find a workaround, hence the missing Start Over button in the program. Streamlit can work correctly with three variables. 
-
-
-# Installation
+## Installation
 To run audio_file_summarizer.py, do the following:
 
 ### Step 1. Place the files in a folder. 
